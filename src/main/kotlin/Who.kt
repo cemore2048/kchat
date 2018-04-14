@@ -1,6 +1,4 @@
 import io.ktor.application.*
-import io.ktor.features.CallLogging
-import io.ktor.features.DefaultHeaders
 import io.ktor.http.ContentType
 import io.ktor.response.respondText
 import io.ktor.routing.get
@@ -9,6 +7,8 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 
 fun main(args: Array<String>) {
+        DatabaseFactory.init()
+
     val server = embeddedServer(Netty, 8080) {
         routing {
             get("/") {
