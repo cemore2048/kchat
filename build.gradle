@@ -25,10 +25,10 @@ apply plugin: "com.github.johnrengelman.shadow"
 
 mainClassName = 'MainKt'
 
-sourceSets {
-    main.kotlin.srcDirs = [ 'src' ]
-    main.resources.srcDirs = [ 'resources' ]
-}
+//sourceSets {
+//    main.kotlin.srcDirs = [ 'src' ]
+//    main.resources.srcDirs = [ 'resources' ]
+//}
 
 sourceCompatibility = 1.8
 
