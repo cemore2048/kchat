@@ -15,7 +15,7 @@ object Users: Table() {
 
 object Message: Table() {
     val id = varchar("id", 10)
-    val channelId = varchar("channelId", 50).primaryKey()
+    val channelId = varchar("channelId", 50).primaryKey().autoIncrement()
     val channelDisplayName = varchar("channelDisplayName",  50)
     val channelType = varchar("channelType", 50)
     val userId = varchar("userId", 10)
@@ -25,7 +25,7 @@ object Message: Table() {
 }
 
 object Channel: Table() {
-    val id = varchar("id", 10).primaryKey()
+    val id = varchar("id", 10).primaryKey().autoIncrement()
     val createdAt = date("createdAt")
     val updateAt = date("updateAt")
     val deleteAt = date("deleteAt")

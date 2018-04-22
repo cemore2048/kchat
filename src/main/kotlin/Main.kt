@@ -1,26 +1,23 @@
-import io.ktor.application.*
-import io.ktor.http.ContentType
-import io.ktor.response.respondText
-import io.ktor.routing.get
+import Routing.register
+import io.ktor.application.Application
+import io.ktor.application.install
+import io.ktor.features.DefaultHeaders
+import io.ktor.locations.Locations
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 
-fun main(args: Array<String>) {
-        DatabaseFactory.init()
-
-    val server = embeddedServer(Netty, 8080) {
+fun Application.mainModule() {
+    DatabaseFactory.init()
+    install(DefaultHeaders)
+    install(Locations)
         routing {
-            get("/") {
-                call.respondText("Hello world", ContentType.Text.Plain)
-            }
-
-            get("/demo") {
-                call.respondText {"Hello Worldd"}
-            }
+            register()
         }
-    }
-
-    server.start(wait = true)
 }
+
+fun main(args: Array<String>) {
+    embeddedServer(Netty, 8080, module = Application::mainModule).start(wait=true)
+}
+
 
