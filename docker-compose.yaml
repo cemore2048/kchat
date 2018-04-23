@@ -11,14 +11,4 @@ services:
     volumes:
     - ./tmp/db:/var/lib/postgresql/data
     restart: always
-  web:
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    expose:
-      - 8080 
-    links:
-      - db
-    depends_on:
-      - db
 

@@ -11,13 +11,14 @@ fun Application.mainModule() {
     DatabaseFactory.init()
     install(DefaultHeaders)
     install(Locations)
-        routing {
-            register()
-        }
+    routing {
+        register()
+    }
 }
 
+
 fun main(args: Array<String>) {
-    embeddedServer(Netty, 8080, module = Application::mainModule).start(wait=true)
+    embeddedServer(Netty, 8080, module = Application::mainModule).start(wait = true)
 }
 
 
