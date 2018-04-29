@@ -5,10 +5,10 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB:postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     volumes:
-    - ./tmp/db:/var/lib/postgresql/data
+    - ./data/postgres:/var/lib/postgresql/data 
     restart: always
 

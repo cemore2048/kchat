@@ -1,8 +1,10 @@
-import routing.UserRouting.register
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
-import io.ktor.auth.*
+import io.ktor.auth.Authentication
+import io.ktor.auth.UserIdPrincipal
+import io.ktor.auth.authenticate
+import io.ktor.auth.basic
 import io.ktor.features.DefaultHeaders
 import io.ktor.locations.Location
 import io.ktor.locations.Locations
@@ -16,6 +18,7 @@ import io.ktor.sessions.SessionTransportTransformerMessageAuthentication
 import io.ktor.sessions.Sessions
 import io.ktor.sessions.cookie
 import io.ktor.util.hex
+import routing.UserRouting.register
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
@@ -36,7 +39,7 @@ fun Application.mainModule() {
         }
     }
     install(Authentication) {
-        basic(name = "kchatAuth1") {
+        basic("kchatAuth1") {
             realm = "Kchat Server"
             validate {
                 when {
@@ -49,12 +52,10 @@ fun Application.mainModule() {
 
     routing {
         register()
-        authenticate {
-            location<Manual> {
-                authenticate("kchatAuth1") {
-                    get {
-                        call.respondText("Success")
-                    }
+        location<Manual> {
+            authenticate("kchatAuth1") {
+                get {
+                    call.respondText("Success")
                 }
             }
         }
