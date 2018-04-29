@@ -1,4 +1,4 @@
-import Routing.register
+import routing.UserRouting.register
 import io.ktor.application.Application
 import io.ktor.application.install
 import io.ktor.features.DefaultHeaders
