@@ -1,19 +1,72 @@
 import routing.UserRouting.register
 import io.ktor.application.Application
+import io.ktor.application.call
 import io.ktor.application.install
+import io.ktor.auth.*
 import io.ktor.features.DefaultHeaders
+import io.ktor.locations.Location
 import io.ktor.locations.Locations
+import io.ktor.locations.location
+import io.ktor.response.respondText
+import io.ktor.routing.get
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import io.ktor.sessions.SessionTransportTransformerMessageAuthentication
+import io.ktor.sessions.Sessions
+import io.ktor.sessions.cookie
+import io.ktor.util.hex
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
+
+data class UserSession(val userId: String)
+
+val hashKey = hex("6819b57a326945c1968f45236589")
+
+@Location("/manual")
+class Manual
 
 fun Application.mainModule() {
     DatabaseFactory.init()
     install(DefaultHeaders)
     install(Locations)
+    install(Sessions) {
+        cookie<UserSession>("SESSION") {
+            transform(SessionTransportTransformerMessageAuthentication(hashKey))
+        }
+    }
+    install(Authentication) {
+        basic(name = "kchatAuth1") {
+            realm = "Kchat Server"
+            validate {
+                when {
+                    it.password == it.name -> UserIdPrincipal(it.name)
+                    else -> null
+                }
+            }
+        }
+    }
+
     routing {
         register()
+        authenticate {
+            location<Manual> {
+                authenticate("kchatAuth1") {
+                    get {
+                        call.respondText("Success")
+                    }
+                }
+            }
+        }
     }
+}
+
+val hmacKey = SecretKeySpec(hashKey, "HmacSHA1")
+
+fun hash(password: String): String {
+    val hmac = Mac.getInstance("HmacSHA1")
+    hmac.init(hmacKey)
+    return hex(hmac.doFinal(password.toByteArray(Charsets.UTF_8)))
 }
 
 
