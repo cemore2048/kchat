@@ -6,7 +6,6 @@ import org.joda.time.DateTime
 import java.util.*
 
 object UserStore {
-
     suspend fun registerUser(params: Parameters) {
         if (isNewUser(params)) {
             DatabaseFactory.dbQuery {
@@ -30,5 +29,4 @@ object UserStore {
 
         return user == null
     }
-
 }
