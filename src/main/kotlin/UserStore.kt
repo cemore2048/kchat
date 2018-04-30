@@ -24,8 +24,8 @@ object UserStore {
 
     suspend fun isNewUser(params: Parameters): Boolean {
         val user = DatabaseFactory.dbQuery {
-            User.select { User.email.eq(params["email"]!!) }
-        }.singleOrNull()
+            User.select { User.email.eq(params["email"]!!) }.singleOrNull()
+        }
 
         return user == null
     }
