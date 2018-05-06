@@ -2,8 +2,5 @@ a.iml
 *.idea
 build/
 out/
-gradlew
-gradlew.bat
-gradle/
 .gradle/
 *.properties
