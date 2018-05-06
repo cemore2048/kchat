@@ -1,4 +1,10 @@
-#KChat - name is WIP
+# KChat - name is WIP
+## Requirements
+1. jdk installed and setup in your editor 
+2. gradle installed
+3. If using intellj can use the following to open project
+![alt text](https://i.stack.imgur.com/l68gI.png)
+
 
 ## Setup 
 
@@ -6,12 +12,24 @@
 - add this configuration 
     ```
     dataSourceClassName=org.postgresql.ds.PGSimpleDataSource
-    dataSource.user=user
-    dataSource.password=user
-    dataSource.databaseName=database
+    dataSource.user=postgres
+    dataSource.password=postgres
+    dataSource.databaseName=postgres
     dataSource.portNumber=5432
     dataSource.serverName=localhost
     ```
 
 
 That's basically it right now....
+
+## runing kchat in docker
+### build first
+`docker-compose build`
+### deploy
+`docker-compose up`
+
+TODO: 
+
+    [ ] crud for channel
+    [ ] create model for subscribe channel for users
+    [ ] subscribe user created to global channel
