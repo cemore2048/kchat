@@ -5,10 +5,13 @@ import io.ktor.auth.Authentication
 import io.ktor.auth.UserIdPrincipal
 import io.ktor.auth.authenticate
 import io.ktor.auth.basic
+import io.ktor.features.ContentNegotiation
 import io.ktor.features.DefaultHeaders
+import io.ktor.gson.gson
 import io.ktor.locations.Location
 import io.ktor.locations.Locations
 import io.ktor.locations.location
+import io.ktor.response.respond
 import io.ktor.response.respondText
 import io.ktor.routing.get
 import io.ktor.routing.routing
@@ -18,6 +21,7 @@ import io.ktor.sessions.SessionTransportTransformerMessageAuthentication
 import io.ktor.sessions.Sessions
 import io.ktor.sessions.cookie
 import io.ktor.util.hex
+import routing.CreateUserResponse
 import routing.UserRouting.register
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
@@ -29,10 +33,17 @@ val hashKey = hex("6819b57a326945c1968f45236589")
 @Location("/manual")
 class Manual
 
+
+
 fun Application.mainModule() {
     DatabaseFactory.init()
     install(DefaultHeaders)
     install(Locations)
+    install(ContentNegotiation) {
+        gson {
+            setPrettyPrinting()
+        }
+    }
     install(Sessions) {
         cookie<UserSession>("SESSION") {
             transform(SessionTransportTransformerMessageAuthentication(hashKey))
@@ -50,12 +61,13 @@ fun Application.mainModule() {
         }
     }
 
+    data class AuthenticateUserResponse(val status: String)
     routing {
         register()
         location<Manual> {
             authenticate("kchatAuth1") {
                 get {
-                    call.respondText("Success")
+                    call.respond(AuthenticateUserResponse("some crap for now"))
                 }
             }
         }
