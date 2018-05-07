@@ -9,4 +9,7 @@ class Locations {
                         val email: String = "",
                         val password: String = "",
                         val createdAt: DateTime? = null)
+
+    @Location("/channel")
+    data class CreateChannel(val username: String = "")
 }

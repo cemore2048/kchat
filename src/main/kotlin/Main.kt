@@ -23,6 +23,7 @@ import io.ktor.sessions.cookie
 import io.ktor.util.hex
 import routing.CreateUserResponse
 import routing.UserRouting.register
+import routing.ChannelRouting.createChannel
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
@@ -62,6 +63,7 @@ fun Application.mainModule() {
     data class AuthenticateUserResponse(val status: String)
     routing {
         register()
+        createChannel()
         location<Manual> {
             authenticate("kchatAuth1") {
                 get {
