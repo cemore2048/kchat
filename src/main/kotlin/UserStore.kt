@@ -1,14 +1,13 @@
 import io.ktor.http.Parameters
 import models.User
 import org.jetbrains.exposed.sql.Query
-import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.joda.time.DateTime
 import java.util.*
 
 object UserStore {
-    suspend fun registerUser(params: Parameters): Query? {
+    suspend fun registerUser(params: Parameters): String? {
         if (isNewUser(params)) {
             DatabaseFactory.dbQuery {
                 User.insert {
@@ -22,7 +21,7 @@ object UserStore {
                 }
             }
 
-            return getUser(params["email"])
+            return getUser(params["email"])?.map { it[User.id] }?.get(0)
         }
         return null
     }
@@ -31,6 +30,7 @@ object UserStore {
 
     private suspend fun getUser(email: String?): Query? {
         return DatabaseFactory.dbQuery {
-            User.select { User.email.eq(email!!) }}.takeIf { !it.empty() }
+            User.select { User.email.eq(email!!) }.takeIf { !it.empty() }
+        }
     }
 }

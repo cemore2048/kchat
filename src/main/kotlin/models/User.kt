@@ -1,5 +1,6 @@
 package models
 
+import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Table
 
 object User: Table() {
