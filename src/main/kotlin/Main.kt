@@ -33,8 +33,6 @@ val hashKey = hex("6819b57a326945c1968f45236589")
 @Location("/manual")
 class Manual
 
-
-
 fun Application.mainModule() {
     DatabaseFactory.init()
     install(DefaultHeaders)
