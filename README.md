@@ -22,7 +22,7 @@
 
 That's basically it right now....
 
-## runing kchat in docker
+## running kchat in docker
 ### build first
 `docker-compose build`
 ### deploy
