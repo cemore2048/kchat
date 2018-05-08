@@ -18,12 +18,10 @@ object ChannelRouting {
             val params = call.receive<Parameters>()
             Logger.logMsg(Logger.INFO, "Create a channel ")
             val requiredParams = listOf("creatorId", "teamId", "type", "displayName", "name", "header", "purpose")
-            val missingFields = mutableListOf<String>()
-            for (paramKey in requiredParams) {
-                if (params.get(paramKey).isNullOrBlank()) {
-                    missingFields.add(paramKey)
-                }
-            }
+            val missingFields: List<String> =
+                    requiredParams.filter { param ->
+                       params[param].isNullOrBlank()
+                    }
             if (missingFields.isNotEmpty()) {
                 val response = missingFields.joinToString(separator = ", ")
                 call.respond(CreateChannelResponse("failed", "Missing Fields: $response", null))
