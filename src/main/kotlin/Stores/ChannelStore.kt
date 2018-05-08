@@ -9,7 +9,7 @@ import org.joda.time.DateTime
 import java.util.*
 
 object ChannelStore {
-    suspend fun createStore(params: Parameters): String? {
+    suspend fun createChannel(params: Parameters): String? {
         val uuid = UUID.randomUUID().toString()
         DatabaseFactory.dbQuery {
             Channel.insert {
