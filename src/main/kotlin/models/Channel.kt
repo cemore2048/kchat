@@ -1,20 +1,27 @@
 package models
 
+import org.jetbrains.exposed.sql.Column
+import org.jetbrains.exposed.sql.Date
 import org.jetbrains.exposed.sql.Table
+import org.joda.time.DateTime
 
 object Channel : Table() {
+    // dynamic
     val id = varchar("id", 36).primaryKey()
     val createdAt = date("createdAt")
     val updateAt = date("updateAt")
-    val deleteAt = date("deleteAt")
+
+    val deleteAt = (date("deleteAt")).nullable()
+    val lastPostAt = (date("lastPostAt")).nullable()
+    val extraUpdateAt = (date("extraUpdateAt")).nullable()
+    val totalMsgCount = integer("totalMsgCount")
+
+    // payload defined
+    val creatorId = varchar("creatorId", 36)
     val teamId = varchar("teamId", 36)
-    val type = varchar("type", 10)
+    val type = varchar("type", 10)  // public, private, dm
     val displayName = varchar("displayName", 30)
     val name = varchar("name", 30)
     val header = varchar("header", 20)
     val purpose = varchar("purpose", 50)
-    val lastPostAt = date("lastPostAt")
-    val totalMsgCount = integer("totalMsgCount")
-    val extraUpdateAt = date("extraUpdateAt")
-    val creatorId = varchar("creatorId", 36)
 }
