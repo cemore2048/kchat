@@ -1,37 +1,41 @@
 package Stores
 
+import DatabaseFactory
 import io.ktor.http.Parameters
 import models.Channel
-import org.jetbrains.exposed.sql.Query
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.joda.time.DateTime
 import java.util.*
 
 object ChannelStore {
-    suspend fun createStore(params: Parameters): Query? {
-            DatabaseFactory.dbQuery {
-                Channel.insert {
-                    it[creatorId] = params["creatorId"]!!
-                    it[teamId] = params["teamId"]!!
-                    it[type] = params["type"]!!
-                    it[displayName] = params["displayName"]!!
-                    it[name] = params["name"]!!
-                    it[header] = params["header"]!!
-                    it[purpose] = params["purpose"]!!
+    suspend fun createStore(params: Parameters): String? {
+        val uuid = UUID.randomUUID().toString()
+        DatabaseFactory.dbQuery {
+            Channel.insert {
+                it[creatorId] = params["creatorId"]!!
+                it[teamId] = params["teamId"]!!
+                it[type] = params["type"]!!
+                it[displayName] = params["displayName"]!!
+                it[name] = params["name"]!!
+                it[header] = params["header"]!!
+                it[purpose] = params["purpose"]!!
 
-                    it[id] = UUID.randomUUID().toString()
-                    it[createdAt] = DateTime.now()
-                    it[updateAt] = DateTime.now()
-                    it[totalMsgCount] = 0
-                }
+                it[id] = uuid
+                it[createdAt] = DateTime.now()
+                it[updateAt] = DateTime.now()
+                it[totalMsgCount] = 0
             }
+        }
         //TODO: just return what gets returned
-        return getChannel(params["name"])
+        return getChannel(uuid)
     }
-    private suspend fun getChannel(name: String?): Query? {
+
+    suspend fun getChannel(uuid: String?): String? {
         return DatabaseFactory.dbQuery {
-            Channel.select { Channel.name.eq(name!!) }}.takeIf { !it.empty() }
+            Channel.select {
+                Channel.id.eq(uuid!!)
+            }.takeIf { !it.empty() }?.map { it[Channel.id] }?.get(0)
+        }
     }
 }

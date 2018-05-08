@@ -11,5 +11,8 @@ class Locations {
                         val createdAt: DateTime? = null)
 
     @Location("/channel")
-    data class CreateChannel(val username: String = "")
+    data class CreateChannel(val name: String = "")
+
+    @Location("/channel/{uuid}")
+    data class GetChannel(val uuid: String)
 }

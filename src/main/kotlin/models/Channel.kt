@@ -19,7 +19,7 @@ object Channel : Table() {
     // payload defined
     val creatorId = varchar("creatorId", 36)
     val teamId = varchar("teamId", 36)
-    val type = varchar("type", 10)
+    val type = varchar("type", 10)  // public, private, dm
     val displayName = varchar("displayName", 30)
     val name = varchar("name", 30)
     val header = varchar("header", 20)
