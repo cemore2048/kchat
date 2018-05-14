@@ -3,5 +3,5 @@ a.iml
 build/
 out/
 .gradle/
-*.properties
 data/
+
