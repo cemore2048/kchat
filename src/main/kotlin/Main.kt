@@ -25,6 +25,7 @@ import routing.CreateUserResponse
 import routing.UserRouting.register
 import routing.ChannelRouting.createChannel
 import routing.ChannelRouting.getChannel
+import routing.ChannelSubscriptionRouting.createChannelSubscription
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
@@ -66,6 +67,7 @@ fun Application.mainModule() {
         register()
         createChannel()
         getChannel()
+        createChannelSubscription()
         location<Manual> {
             authenticate("kchatAuth1") {
                 get {

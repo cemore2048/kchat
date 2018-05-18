@@ -11,7 +11,7 @@ object ChannelSubscription : Table() {
     val createdAt = date("createdAt")
     val updateAt = date("updateAt")
 
-    val userId = varchar("userId", 36)
-    val channelId = varchar("chanelId", 36)
+    val userId = (varchar("userUuid", 36) references User.id)
+    val channelId = (varchar("channelUuid", 36) references Channel.id)
 
 }
