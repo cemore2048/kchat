@@ -21,4 +21,7 @@ class Locations {
 
     @Location("/channels/{channelUuid}/subscribe/{userUuid}")
     data class CreateChannelSubscription(val channelUuid: String, val userUuid: String)
+
+    @Location("/subscriptions")
+    data class GetAllSubscriptions(val test: String = "")
 }
