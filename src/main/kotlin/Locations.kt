@@ -10,6 +10,9 @@ class Locations {
                         val password: String = "",
                         val createdAt: DateTime? = null)
 
+    @Location("/users")
+    data class GetAllUsers(val empty: String = "")
+
     @Location("/channels")
     data class Channels(val name: String = "")
 

@@ -26,6 +26,7 @@ import routing.UserRouting.register
 import routing.ChannelRouting.createChannel
 import routing.ChannelRouting.getChannel
 import routing.ChannelSubscriptionRouting.createChannelSubscription
+import routing.UserRouting.getUsers
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
@@ -65,6 +66,7 @@ fun Application.mainModule() {
     data class AuthenticateUserResponse(val status: String)
     routing {
         register()
+        getUsers()
         createChannel()
         getChannel()
         createChannelSubscription()
