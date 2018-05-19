@@ -10,12 +10,12 @@ class Locations {
                         val password: String = "",
                         val createdAt: DateTime? = null)
 
-    @Location("/channel")
-    data class CreateChannel(val name: String = "")
+    @Location("/channels")
+    data class Channels(val name: String = "")
 
-    @Location("/channel/{uuid}")
+    @Location("/channels/{uuid}")
     data class GetChannel(val uuid: String)
 
-    @Location("/channel/{channelUuid}/subscribe/{userUuid}")
+    @Location("/channels/{channelUuid}/subscribe/{userUuid}")
     data class CreateChannelSubscription(val channelUuid: String, val userUuid: String)
 }

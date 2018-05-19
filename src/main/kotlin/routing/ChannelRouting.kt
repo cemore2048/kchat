@@ -1,5 +1,6 @@
 package routing
 
+import Stores.ChannelObj
 import Stores.ChannelStore
 import com.sun.media.jfxmedia.logging.Logger
 import io.ktor.application.call
@@ -11,10 +12,11 @@ import io.ktor.response.respond
 import io.ktor.routing.Route
 
 data class CreateChannelResponse(val status: String, val reason: String, val channelId: String?)
+data class ListChannelResponse(val status: String, val reason: String, val channelId: List<ChannelObj>?)
 
 object ChannelRouting {
     fun Route.createChannel() {
-        post<Locations.CreateChannel> {
+        post<Locations.Channels> {
             val params = call.receive<Parameters>()
             Logger.logMsg(Logger.INFO, "Create a channel ")
             val requiredParams = listOf("creatorId", "teamId", "type", "displayName", "name", "header", "purpose")
@@ -30,6 +32,10 @@ object ChannelRouting {
                 call.respond(CreateChannelResponse("success", "Successfully created a channel", channelId))
             }
         }
+        get<Locations.Channels>{
+            val channels: List<ChannelObj> = ChannelStore.getAllChannels()
+            call.respond(ListChannelResponse("success", "Successfully retrieved all channels", channels));
+        }
     }
 
     fun Route.getChannel() {
@@ -39,4 +45,5 @@ object ChannelRouting {
             call.respond(CreateChannelResponse("success", "Successfully retrieved a channel", x))
         }
     }
+
 }
