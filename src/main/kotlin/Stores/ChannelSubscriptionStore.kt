@@ -22,8 +22,8 @@ object ChannelSubscriptionStore {
 
         DatabaseFactory.dbQuery {
             ChannelSubscription.insert {
-                it[userId] = params["userUuid"]!!
-                it[channelId] = params["channelUuid"]!!
+                it[userId] = params["userId"]!!
+                it[channelId] = params["channelId"]!!
 
                 it[id] = uuid
                 it[createdAt] = DateTime.now()

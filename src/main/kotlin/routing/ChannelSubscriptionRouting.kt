@@ -19,7 +19,7 @@ object ChannelSubscriptionRouting {
         post<Locations.CreateChannelSubscription> {
             val params = call.parameters
             Logger.logMsg(Logger.INFO, "subscribe a user to a channel ")
-            val requiredParams = listOf("userUuid", "channelUuid")
+            val requiredParams = listOf("userId", "channelId")
             val missingFields: List<String> =
                     requiredParams.filter { param ->
                         params[param].isNullOrBlank()
