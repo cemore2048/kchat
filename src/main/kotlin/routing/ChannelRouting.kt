@@ -1,7 +1,6 @@
 package routing
 
-import Stores.ChannelObj
-import Stores.ChannelStore
+import Stores.*
 import com.sun.media.jfxmedia.logging.Logger
 import io.ktor.application.call
 import io.ktor.http.Parameters
@@ -11,8 +10,11 @@ import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.Route
 
+
 data class CreateChannelResponse(val status: String, val reason: String, val channelId: String?)
 data class ListChannelResponse(val status: String, val reason: String, val channelId: List<ChannelObj>?)
+data class ChannelMem(val name: String, val id: String, val users: List<UsersSmallObj>?)
+data class ListUsersChannelsResponse(val status: String, val reason: String, val channel: ChannelMem?)
 
 object ChannelRouting {
     fun Route.createChannel() {
@@ -45,5 +47,24 @@ object ChannelRouting {
             call.respond(CreateChannelResponse("success", "Successfully retrieved a channel", x))
         }
     }
+
+    fun Route.getAllUsersForChannel(){
+        get<Locations.GetAllUsersForChannel> {
+            val uuid = call.parameters["uuid"]
+            Logger.logMsg(Logger.INFO, "Starting getting all users for channels")
+            val channelUsers : List<ChannelUsers>? = ChannelSubscriptionStore.getUsersInChannel(uuid)
+            if(channelUsers != null){
+                val users :List<UsersSmallObj>? = channelUsers?.map{ it.User }
+                val respObj = ChannelMem(channelUsers[0].name, channelUsers[0].id, users)
+                call.respond(ListUsersChannelsResponse("success", "Successfully retrieved a channel", respObj))
+            }else{
+                call.respond(ListUsersChannelsResponse("success", "Successfully retrieved no channels", null))
+            }
+
+
+        }
+    }
+
+
 
 }

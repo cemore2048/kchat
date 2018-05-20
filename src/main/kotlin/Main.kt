@@ -25,6 +25,7 @@ import routing.CreateUserResponse
 import routing.UserRouting.register
 import routing.ChannelRouting.createChannel
 import routing.ChannelRouting.getChannel
+import routing.ChannelRouting.getAllUsersForChannel
 import routing.ChannelSubscriptionRouting.createChannelSubscription
 import routing.ChannelSubscriptionRouting.getAllSubscriptions
 import routing.UserRouting.getUsers
@@ -72,6 +73,7 @@ fun Application.mainModule() {
         getChannel()
         getAllSubscriptions()
         createChannelSubscription()
+        getAllUsersForChannel()
         location<Manual> {
             authenticate("kchatAuth1") {
                 get {
