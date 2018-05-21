@@ -10,14 +10,14 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.joda.time.DateTime
 import java.util.*
-data class UsersSmallObj(
+data class UserSmallObj(
         val username: String,
         val id: String)
 
 data class ChannelUsers(
         val name: String,
         val id: String,
-        val User: UsersSmallObj
+        val User: UserSmallObj
 )
 data class ChannelSubscriptionObj (
         var userId: String,
@@ -74,15 +74,13 @@ object ChannelSubscriptionStore {
                         return@map ChannelUsers(
                                 it[Channel.name],
                                 it[Channel.id],
-                                UsersSmallObj(
+                                UserSmallObj(
                                         it[User.username],
                                         it[User.id]
                                 )
 
                         )
                     }
-
-
         }
     }
 }

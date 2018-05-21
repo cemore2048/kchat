@@ -10,7 +10,7 @@ import org.joda.time.DateTime
 import java.util.*
 
 data class ChannelObj(val creatorId: String,
-                      val teamId: String?,
+                      val teamId: String,
                       val type: String,
                       val displayName : String,
                       val name: String,

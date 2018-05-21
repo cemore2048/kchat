@@ -13,7 +13,7 @@ import io.ktor.routing.Route
 
 data class CreateChannelResponse(val status: String, val reason: String, val channelId: String?)
 data class ListChannelResponse(val status: String, val reason: String, val channelId: List<ChannelObj>?)
-data class ChannelMem(val name: String, val id: String, val users: List<UsersSmallObj>?)
+data class ChannelMem(val name: String, val id: String, val users: List<UserSmallObj>?)
 data class ListUsersChannelsResponse(val status: String, val reason: String, val channel: ChannelMem?)
 
 object ChannelRouting {
@@ -36,7 +36,7 @@ object ChannelRouting {
         }
         get<Locations.Channels>{
             val channels: List<ChannelObj> = ChannelStore.getAllChannels()
-            call.respond(ListChannelResponse("success", "Successfully retrieved all channels", channels));
+            call.respond(ListChannelResponse("success", "Successfully retrieved all channels", channels))
         }
     }
 
@@ -54,17 +54,12 @@ object ChannelRouting {
             Logger.logMsg(Logger.INFO, "Starting getting all users for channels")
             val channelUsers : List<ChannelUsers>? = ChannelSubscriptionStore.getUsersInChannel(uuid)
             if(channelUsers != null){
-                val users :List<UsersSmallObj>? = channelUsers?.map{ it.User }
+                val users :List<UserSmallObj>? = channelUsers?.map{ it.User }
                 val respObj = ChannelMem(channelUsers[0].name, channelUsers[0].id, users)
                 call.respond(ListUsersChannelsResponse("success", "Successfully retrieved a channel", respObj))
             }else{
                 call.respond(ListUsersChannelsResponse("success", "Successfully retrieved no channels", null))
             }
-
-
         }
     }
-
-
-
 }
