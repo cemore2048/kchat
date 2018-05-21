@@ -28,8 +28,3 @@ That's basically it right now....
 ### deploy
 `docker-compose up`
 
-TODO: 
-
-    [ ] crud for channel
-    [ ] create model for subscribe channel for users
-    [ ] subscribe user created to global channel
