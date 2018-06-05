@@ -50,15 +50,20 @@ object ChannelRouting {
 
     fun Route.getAllUsersForChannel(){
         get<Locations.GetAllUsersForChannel> {
-            val uuid = call.parameters["uuid"]
-            Logger.logMsg(Logger.INFO, "Starting getting all users for channels")
-            val channelUsers : List<ChannelUsers>? = ChannelSubscriptionStore.getUsersInChannel(uuid)
-            if(channelUsers != null){
-                val users :List<UserSmallObj>? = channelUsers?.map{ it.User }
-                val respObj = ChannelMem(channelUsers[0].name, channelUsers[0].id, users)
-                call.respond(ListUsersChannelsResponse("success", "Successfully retrieved a channel", respObj))
-            }else{
-                call.respond(ListUsersChannelsResponse("success", "Successfully retrieved no channels", null))
+            try { call.parameters["uuid"]!! } catch(e: NullPointerException){
+                call.respond(ListUsersChannelsResponse("failed", "Missing uuid of channel ", null))
+            }
+            call.parameters["uuid"]?.let{
+                val uuid = it
+                Logger.logMsg(Logger.INFO, "Starting getting all users for channels")
+                val channelUsers : List<ChannelUsers>? = ChannelSubscriptionStore.getUsersInChannel(uuid)
+                if(channelUsers != null){
+                    val users :List<UserSmallObj>? = channelUsers.map{ it.User }
+                    val respObj = ChannelMem(channelUsers[0].name, channelUsers[0].id, users)
+                    call.respond(ListUsersChannelsResponse("success", "Successfully retrieved a channel", respObj))
+                }else{
+                    call.respond(ListUsersChannelsResponse("success", "Successfully retrieved no channels", null))
+                }
             }
         }
     }

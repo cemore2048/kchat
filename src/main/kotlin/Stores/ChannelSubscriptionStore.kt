@@ -42,7 +42,7 @@ object ChannelSubscriptionStore {
         }
         return getChannelSubscription(uuid)
     }
-    suspend private fun getChannelSubscription(uuid: String?): String? {
+    suspend private fun getChannelSubscription(uuid: String): String? {
         return DatabaseFactory.dbQuery {
             ChannelSubscription.select {
                 ChannelSubscription.id.eq(uuid!!)
@@ -64,7 +64,7 @@ object ChannelSubscriptionStore {
         }
     }
 
-    suspend fun getUsersInChannel(uuid: String?): List<ChannelUsers>?{
+    suspend fun getUsersInChannel(uuid: String): List<ChannelUsers>?{
         return DatabaseFactory.dbQuery {
             (User innerJoin  ChannelSubscription innerJoin Channel).slice(User.username, User.id,
                     ChannelSubscription.id, ChannelSubscription.userId, ChannelSubscription.channelId,
