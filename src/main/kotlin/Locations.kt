@@ -10,9 +10,21 @@ class Locations {
                         val password: String = "",
                         val createdAt: DateTime? = null)
 
-    @Location("/channel")
-    data class CreateChannel(val name: String = "")
+    @Location("/users")
+    data class GetAllUsers(val empty: String = "")
 
-    @Location("/channel/{uuid}")
-    data class GetChannel(val uuid: String)
+    @Location("/channels")
+    data class Channels(val name: String = "")
+
+    @Location("/channels/{uuid}")
+    data class GetChannel(val uuid: String = "")
+
+    @Location("/channels/{uuid}/users")
+    data class GetAllUsersForChannel(val uuid: String)
+
+    @Location("/channels/{channelId}/subscribe/{userId}")
+    data class CreateChannelSubscription(val channelId: String, val userId: String)
+
+    @Location("/subscriptions")
+    data class GetAllSubscriptions(val test: String = "")
 }

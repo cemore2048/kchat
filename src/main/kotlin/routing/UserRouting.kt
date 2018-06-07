@@ -1,9 +1,11 @@
 package routing
 
 import Locations
-import UserStore
+import Stores.UserStore
+import Stores.UsersObj
 import io.ktor.application.call
 import io.ktor.http.Parameters
+import io.ktor.locations.get
 import io.ktor.locations.post
 import io.ktor.request.receive
 import io.ktor.response.respond
@@ -14,6 +16,7 @@ private val EMAIL_REGEX = "(?:(?:\\r\\n)?[ \\t])*(?:(?:(?:[^()<>@,;:\\\\\".\\[\\
 private val PASSWORD_REGEX = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}".toRegex()
 
 data class CreateUserResponse(val status: String, val reason: String, val userId: String?)
+data class ListUserResponse(val status: String, val reason: String, val users: List<UsersObj>?)
 
 object UserRouting {
     fun Route.register() {
@@ -34,6 +37,12 @@ object UserRouting {
                     call.respond(CreateUserResponse("success", "", userId))
                 }
             }
+        }
+    }
+    fun Route.getUsers(){
+        get<Locations.GetAllUsers>{
+            val users: List<UsersObj> = UserStore.getAllUsers()
+            call.respond(ListUserResponse("success", "Successfully retrieved all users", users))
         }
     }
 }

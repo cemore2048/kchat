@@ -3,6 +3,7 @@ import com.zaxxer.hikari.HikariDataSource
 import kotlinx.coroutines.experimental.newFixedThreadPoolContext
 import kotlinx.coroutines.experimental.withContext
 import models.Channel
+import models.ChannelSubscription
 import models.Message
 import models.User
 import org.jetbrains.exposed.sql.Database
@@ -22,7 +23,7 @@ object DatabaseFactory {
     fun init() {
         Database.connect(hikari())
         transaction {
-            create(User, Channel, Message)
+            create(User, Channel, Message, ChannelSubscription)
         }
     }
 
