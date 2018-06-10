@@ -29,5 +29,5 @@ class Locations {
     data class GetAllSubscriptions(val test: String = "")
 
     @Location("/teams")
-    data class Teams(val name: String)
+    data class Teams(val name: String = "")
 }
