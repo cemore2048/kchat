@@ -12,7 +12,6 @@ import io.ktor.locations.Location
 import io.ktor.locations.Locations
 import io.ktor.locations.location
 import io.ktor.response.respond
-import io.ktor.response.respondText
 import io.ktor.routing.get
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
@@ -21,14 +20,14 @@ import io.ktor.sessions.SessionTransportTransformerMessageAuthentication
 import io.ktor.sessions.Sessions
 import io.ktor.sessions.cookie
 import io.ktor.util.hex
-import routing.CreateUserResponse
-import routing.UserRouting.register
 import routing.ChannelRouting.createChannel
-import routing.ChannelRouting.getChannel
 import routing.ChannelRouting.getAllUsersForChannel
+import routing.ChannelRouting.getChannel
 import routing.ChannelSubscriptionRouting.createChannelSubscription
 import routing.ChannelSubscriptionRouting.getAllSubscriptions
 import routing.UserRouting.getUsers
+import routing.UserRouting.register
+import routing.teamRouting.createTeam
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
@@ -74,6 +73,7 @@ fun Application.mainModule() {
         getAllSubscriptions()
         createChannelSubscription()
         getAllUsersForChannel()
+        createTeam()
         location<Manual> {
             authenticate("kchatAuth1") {
                 get {
