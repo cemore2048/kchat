@@ -1,5 +1,6 @@
 package routing
 
+import Stores.TeamObj
 import Stores.TeamStore
 import Stores.UserStore
 import Stores.UsersObj
@@ -12,6 +13,7 @@ import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.Route
 
+data class ListResponse<T>(val status: String, val reason: String, val data: List<T>?)
 object teamRouting{
     fun Route.createTeam() {
         post<Locations.Teams> {
@@ -31,7 +33,8 @@ object teamRouting{
             }
         }
         get<Locations.Teams>{
-            call.respond(ListUserResponse("success", "Successfully retrieved all Teams", null))
+            val teams= TeamStore.getAll();
+            call.respond(ListResponse<TeamObj>("success", "Successfully retrieved all Teams", teams))
         }
     }
 }

@@ -1,8 +1,10 @@
 package Stores
 
 import DatabaseFactory
+import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.statements.InsertStatement
 import java.util.*
 
@@ -27,9 +29,11 @@ abstract class BaseStore<T : Table>(val model: T){
         }
     }
 
-//    suspend fun _getAll() {
-//        return DatabaseFactory.dbQuery {
-//
-//        }
-//    }
+    suspend fun <L>getAll(callback: (items: ResultRow) -> L) : List <L>{
+        return DatabaseFactory.dbQuery {
+            model.selectAll().map {
+                return@map callback(it)
+            }
+        }
+    }
 }
