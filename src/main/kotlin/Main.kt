@@ -28,6 +28,7 @@ import routing.ChannelSubscriptionRouting.getAllSubscriptions
 import routing.UserRouting.getUsers
 import routing.UserRouting.register
 import routing.teamRouting.createTeam
+import routing.teamRouting.getTeam
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
@@ -74,6 +75,7 @@ fun Application.mainModule() {
         createChannelSubscription()
         getAllUsersForChannel()
         createTeam()
+        getTeam()
         location<Manual> {
             authenticate("kchatAuth1") {
                 get {

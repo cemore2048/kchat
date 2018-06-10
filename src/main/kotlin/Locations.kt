@@ -30,4 +30,7 @@ class Locations {
 
     @Location("/teams")
     data class Teams(val name: String = "")
+
+    @Location("/teams/{uuid}")
+    data class Team(val uuid: String = "")
 }

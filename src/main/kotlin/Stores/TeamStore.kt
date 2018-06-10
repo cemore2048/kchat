@@ -35,7 +35,7 @@ object TeamStore : BaseStore<Team>(Team) {
         }
     }
     suspend fun getAll() : List <TeamObj>{
-        return getAll<TeamObj> {
+        return getAll {
             TeamObj(
                     it[id],
                     it[name],
