@@ -1,31 +1,34 @@
 package Stores
 
 import DatabaseFactory
-import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.Table
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.selectAll
+import models.BaseTable
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.statements.InsertStatement
+import org.jetbrains.exposed.sql.statements.UpdateStatement
+import org.joda.time.DateTime
 import java.util.*
 
-abstract class BaseStore<T : Table>(val model: T){
-
-    abstract suspend fun get(uuid : String?) : String?
-
+abstract class BaseStore<T : BaseTable>(val model: T){
     suspend fun create(callback: (Pair<InsertStatement<Number>, String>) -> Unit): String? {
         val uuid = UUID.randomUUID().toString()
         DatabaseFactory.dbQuery {
             model.insert{
                 //TODO undo this Pair couldn't figure out a different way
                 callback(Pair(it, uuid))
-                //TODO do uuid assignment, createdAt, created
+                it[id] = uuid
+                it[createdAt] = DateTime.now()
+                it[updateAt] = DateTime.now()
+
             }
         }
         return get(uuid)
     }
-    suspend fun get(callback: () -> String? ): String? {
+    suspend fun get(uuid: String?): String? {
         return DatabaseFactory.dbQuery {
-            callback()
+            model.select {
+                model.id.eq(uuid!!)
+            }.takeIf { !it.empty() }?.map { it[model.id] }?.get(0)
         }
     }
 
@@ -33,6 +36,14 @@ abstract class BaseStore<T : Table>(val model: T){
         return DatabaseFactory.dbQuery {
             model.selectAll().map {
                 return@map callback(it)
+            }
+        }
+    }
+    suspend fun updateById(id : String , callback2: (x : T) -> UpdateStatement){
+        return DatabaseFactory.dbQuery {
+            model.update({ model.id eq id!! })
+            {
+                callback2(this)
             }
         }
     }
