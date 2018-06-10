@@ -32,18 +32,18 @@ abstract class BaseStore<T : BaseTable>(val model: T){
         }
     }
 
-    suspend fun <L>getAll(callback: (items: ResultRow) -> L) : List <L>{
+    suspend fun <L>getAll(createJsonPo: (items: ResultRow) -> L) : List <L>{
         return DatabaseFactory.dbQuery {
             model.selectAll().map {
-                return@map callback(it)
+                return@map createJsonPo(it)
             }
         }
     }
-    suspend fun updateById(id : String , callback2: (x : T) -> UpdateStatement){
+    suspend fun updateById(id : String , valueToUpdate: (x : UpdateStatement) -> UpdateStatement ){
         return DatabaseFactory.dbQuery {
             model.update({ model.id eq id!! })
             {
-                callback2(this)
+                valueToUpdate(it)
             }
         }
     }

@@ -6,9 +6,6 @@ import models.Team.createdAt
 import models.Team.id
 import models.Team.name
 import models.Team.updateAt
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.update
-import org.joda.time.DateTime
 
 data class TeamObj (
         var id: String,
@@ -16,9 +13,8 @@ data class TeamObj (
         var createdAt: String,
         var updateAt: String
 )
-
 object TeamStore : BaseStore<Team>(Team) {
-    suspend fun create(params: Parameters): String? {
+    suspend fun createTeam(params: Parameters): String? {
         return create  {
                 it.first[name] = params["name"]!!
         }

@@ -27,8 +27,8 @@ import routing.ChannelSubscriptionRouting.createChannelSubscription
 import routing.ChannelSubscriptionRouting.getAllSubscriptions
 import routing.UserRouting.getUsers
 import routing.UserRouting.register
-import routing.teamRouting.createTeam
-import routing.teamRouting.getTeam
+import routing.TeamRouting.createTeam
+import routing.TeamRouting.getTeam
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
