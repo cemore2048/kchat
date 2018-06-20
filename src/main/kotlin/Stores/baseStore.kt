@@ -3,7 +3,6 @@ package Stores
 import DatabaseFactory
 import models.BaseTable
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.statements.InsertStatement
 import org.jetbrains.exposed.sql.statements.UpdateStatement
 import org.joda.time.DateTime
@@ -32,14 +31,14 @@ abstract class BaseStore<T : BaseTable>(val model: T){
         }
     }
 
-    suspend fun <L>getAll(createJsonPo: (items: ResultRow) -> L) : List <L>{
+    suspend fun <L>getAll(createJsonPojo: (items: ResultRow) -> L) : List <L>{
         return DatabaseFactory.dbQuery {
             model.selectAll().map {
-                return@map createJsonPo(it)
+                return@map createJsonPojo(it)
             }
         }
     }
-    suspend fun updateById(id : String , valueToUpdate: (x : UpdateStatement) -> UpdateStatement ){
+    suspend fun updateById(id : String , valueToUpdate: (x : UpdateStatement) -> UpdateStatement){
         return DatabaseFactory.dbQuery {
             model.update({ model.id eq id!! })
             {
