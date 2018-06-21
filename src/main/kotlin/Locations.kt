@@ -27,4 +27,10 @@ class Locations {
 
     @Location("/subscriptions")
     data class GetAllSubscriptions(val test: String = "")
+
+    @Location("/teams")
+    data class Teams(val name: String = "")
+
+    @Location("/teams/{uuid}")
+    data class Team(val uuid: String = "")
 }
