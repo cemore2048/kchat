@@ -1,4 +1,4 @@
-package Stores
+package stores
 
 import io.ktor.http.Parameters
 import models.Team

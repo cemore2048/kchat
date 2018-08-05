@@ -1,8 +1,8 @@
 package routing
 
 import Locations
-import Stores.ChannelSubscriptionObj
-import Stores.ChannelSubscriptionStore
+import stores.ChannelSubscriptionObj
+import stores.ChannelSubscriptionStore
 import com.sun.media.jfxmedia.logging.Logger
 import io.ktor.application.call
 import io.ktor.locations.get

@@ -1,7 +1,7 @@
 package routing
 
 import Locations
-import Stores.*
+import stores.*
 import com.sun.media.jfxmedia.logging.Logger
 import io.ktor.application.call
 import io.ktor.http.Parameters

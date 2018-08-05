@@ -1,8 +1,8 @@
 package routing
 
 import Locations
-import Stores.UserStore
-import Stores.UsersObj
+import stores.UserStore
+import stores.UsersObj
 import io.ktor.application.call
 import io.ktor.http.Parameters
 import io.ktor.locations.get

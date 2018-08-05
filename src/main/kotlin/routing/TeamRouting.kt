@@ -1,8 +1,8 @@
 package routing
 
 import Locations
-import Stores.TeamObj
-import Stores.TeamStore
+import stores.TeamObj
+import stores.TeamStore
 import com.sun.media.jfxmedia.logging.Logger
 import io.ktor.application.call
 import io.ktor.http.Parameters

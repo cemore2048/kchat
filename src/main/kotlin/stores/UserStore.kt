@@ -1,4 +1,4 @@
-package Stores
+package stores
 
 import DatabaseFactory
 import io.ktor.http.Parameters
