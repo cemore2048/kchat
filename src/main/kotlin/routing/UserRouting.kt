@@ -39,8 +39,9 @@ object UserRouting {
             }
         }
     }
-    fun Route.getUsers(){
-        get<Locations.GetAllUsers>{
+
+    fun Route.getUsers() {
+        get<Locations.GetAllUsers> {
             val users: List<UsersObj> = UserStore.getAllUsers()
             call.respond(ListUserResponse("success", "Successfully retrieved all users", users))
         }

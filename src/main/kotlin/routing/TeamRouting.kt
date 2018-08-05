@@ -15,7 +15,7 @@ import io.ktor.routing.Route
 data class ListResponse<T>(val status: String, val reason: String, val data: List<T>?)
 data class CreateResponse(val status: String, val reason: String, val id: String?)
 
-object TeamRouting{
+object TeamRouting {
     fun Route.createTeam() {
         post<Locations.Teams> {
             val params = call.receive<Parameters>()
@@ -33,13 +33,14 @@ object TeamRouting{
                 call.respond(CreateResponse("success", "Successfully created a Team", teamId))
             }
         }
-        get<Locations.Teams>{
-            val teams= TeamStore.getAll();
+        get<Locations.Teams> {
+            val teams = TeamStore.getAll();
             call.respond(ListResponse<TeamObj>("success", "Successfully retrieved all Teams", teams))
         }
     }
-    fun Route.getTeam(){
-        get<Locations.Team>{
+
+    fun Route.getTeam() {
+        get<Locations.Team> {
             val uuid = call.parameters["uuid"]
             val team = TeamStore.get(uuid)
             call.respond(CreateResponse("success", "Successfully retrieved a channel", team))

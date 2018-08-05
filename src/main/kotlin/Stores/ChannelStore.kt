@@ -12,7 +12,7 @@ import java.util.*
 data class ChannelObj(val creatorId: String,
                       val teamId: String,
                       val type: String,
-                      val displayName : String,
+                      val displayName: String,
                       val name: String,
                       val header: String,
                       val purpose: String,
@@ -54,20 +54,19 @@ object ChannelStore {
 
     suspend fun getAllChannels(): List<ChannelObj> {
         return DatabaseFactory.dbQuery {
-            Channel.selectAll().map{
-                 return@map ChannelObj(
-                it[Channel.creatorId],
-                it[Channel.teamId],
-                it[Channel.type],
-                it[Channel.displayName],
-                it[Channel.name],
-                it[Channel.header],
-                it[Channel.purpose],
-                it[Channel.id],
-                it[Channel.createdAt].toString(),
-                it[Channel.updateAt].toString(),
-                it[Channel.totalMsgCount])
-
+            Channel.selectAll().map {
+                return@map ChannelObj(
+                        it[Channel.creatorId],
+                        it[Channel.teamId],
+                        it[Channel.type],
+                        it[Channel.displayName],
+                        it[Channel.name],
+                        it[Channel.header],
+                        it[Channel.purpose],
+                        it[Channel.id],
+                        it[Channel.createdAt].toString(),
+                        it[Channel.updateAt].toString(),
+                        it[Channel.totalMsgCount])
             }
         }
     }
