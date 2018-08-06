@@ -1,8 +1,8 @@
 package routing
 
 import Locations
-import Stores.UserStore
-import Stores.UsersObj
+import stores.UserStore
+import stores.UsersObj
 import io.ktor.application.call
 import io.ktor.http.Parameters
 import io.ktor.locations.get
@@ -39,8 +39,9 @@ object UserRouting {
             }
         }
     }
-    fun Route.getUsers(){
-        get<Locations.GetAllUsers>{
+
+    fun Route.getUsers() {
+        get<Locations.GetAllUsers> {
             val users: List<UsersObj> = UserStore.getAllUsers()
             call.respond(ListUserResponse("success", "Successfully retrieved all users", users))
         }

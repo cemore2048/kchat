@@ -1,6 +1,7 @@
 package routing
 
-import Stores.*
+import Locations
+import stores.*
 import com.sun.media.jfxmedia.logging.Logger
 import io.ktor.application.call
 import io.ktor.http.Parameters
@@ -24,7 +25,7 @@ object ChannelRouting {
             val requiredParams = listOf("creatorId", "teamId", "type", "displayName", "name", "header", "purpose")
             val missingFields: List<String> =
                     requiredParams.filter { param ->
-                       params[param].isNullOrBlank()
+                        params[param].isNullOrBlank()
                     }
             if (missingFields.isNotEmpty()) {
                 val response = missingFields.joinToString(separator = ", ")
@@ -34,7 +35,7 @@ object ChannelRouting {
                 call.respond(CreateChannelResponse("success", "Successfully created a channel", channelId))
             }
         }
-        get<Locations.Channels>{
+        get<Locations.Channels> {
             val channels: List<ChannelObj> = ChannelStore.getAllChannels()
             call.respond(ListChannelResponse("success", "Successfully retrieved all channels", channels))
         }
@@ -48,20 +49,22 @@ object ChannelRouting {
         }
     }
 
-    fun Route.getAllUsersForChannel(){
+    fun Route.getAllUsersForChannel() {
         get<Locations.GetAllUsersForChannel> {
-            try { call.parameters["uuid"]!! } catch(e: NullPointerException){
+            try {
+                call.parameters["uuid"]!!
+            } catch (e: NullPointerException) {
                 call.respond(ListUsersChannelsResponse("failed", "Missing uuid of channel ", null))
             }
-            call.parameters["uuid"]?.let{
+            call.parameters["uuid"]?.let {
                 val uuid = it
                 Logger.logMsg(Logger.INFO, "Starting getting all users for channels")
-                val channelUsers : List<ChannelUsers>? = ChannelSubscriptionStore.getUsersInChannel(uuid)
-                if(channelUsers != null){
-                    val users :List<UserSmallObj>? = channelUsers.map{ it.User }
+                val channelUsers: List<ChannelUsers>? = ChannelSubscriptionStore.getUsersInChannel(uuid)
+                if (channelUsers != null) {
+                    val users: List<UserSmallObj>? = channelUsers.map { it.User }
                     val respObj = ChannelMem(channelUsers[0].name, channelUsers[0].id, users)
                     call.respond(ListUsersChannelsResponse("success", "Successfully retrieved a channel", respObj))
-                }else{
+                } else {
                     call.respond(ListUsersChannelsResponse("success", "Successfully retrieved no channels", null))
                 }
             }

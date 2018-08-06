@@ -2,9 +2,9 @@ package models
 
 import org.jetbrains.exposed.sql.Table
 
-object User: Table() {
+object User : Table() {
     val id = varchar("id", 36).primaryKey()
-    val firstName = varchar("firstName",50)
+    val firstName = varchar("firstName", 50)
     val lastName = varchar("lastName", 50)
     val createdAt = datetime("createdAt")
     val username = varchar("username", 64)

@@ -1,15 +1,16 @@
-package Stores
+package stores
 
-import models.ChannelSubscription
+import DatabaseFactory
 import io.ktor.http.Parameters
 import models.Channel
+import models.ChannelSubscription
 import models.User
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.joda.time.DateTime
 import java.util.*
+
 data class UserSmallObj(
         val username: String,
         val id: String)
@@ -19,13 +20,15 @@ data class ChannelUsers(
         val id: String,
         val User: UserSmallObj
 )
-data class ChannelSubscriptionObj (
+
+data class ChannelSubscriptionObj(
         var userId: String,
         var channelId: String,
         var id: String,
         var createdAt: String,
         var updateAt: String
 )
+
 object ChannelSubscriptionStore {
     suspend fun createChannelSubscription(params: Parameters): String? {
         val uuid = UUID.randomUUID().toString()
@@ -42,6 +45,7 @@ object ChannelSubscriptionStore {
         }
         return getChannelSubscription(uuid)
     }
+
     suspend private fun getChannelSubscription(uuid: String): String? {
         return DatabaseFactory.dbQuery {
             ChannelSubscription.select {
@@ -54,33 +58,31 @@ object ChannelSubscriptionStore {
         return DatabaseFactory.dbQuery {
             ChannelSubscription.selectAll().map {
                 return@map ChannelSubscriptionObj(
-                    it[ChannelSubscription.userId],
-                    it[ChannelSubscription.channelId],
-                    it[ChannelSubscription.id],
-                    it[ChannelSubscription.createdAt].toString(),
-                    it[ChannelSubscription.updateAt].toString()
+                        it[ChannelSubscription.userId],
+                        it[ChannelSubscription.channelId],
+                        it[ChannelSubscription.id],
+                        it[ChannelSubscription.createdAt].toString(),
+                        it[ChannelSubscription.updateAt].toString()
                 )
             }
         }
     }
 
-    suspend fun getUsersInChannel(uuid: String): List<ChannelUsers>?{
+    suspend fun getUsersInChannel(uuid: String): List<ChannelUsers>? {
         return DatabaseFactory.dbQuery {
-            (User innerJoin  ChannelSubscription innerJoin Channel).slice(User.username, User.id,
+            (User innerJoin ChannelSubscription innerJoin Channel).slice(User.username, User.id,
                     ChannelSubscription.id, ChannelSubscription.userId, ChannelSubscription.channelId,
-                    Channel.id, Channel.name, Channel.creatorId).
-                    select {ChannelSubscription.channelId.eq(uuid!!) }.
-                    map {
-                        return@map ChannelUsers(
-                                it[Channel.name],
-                                it[Channel.id],
-                                UserSmallObj(
-                                        it[User.username],
-                                        it[User.id]
-                                )
-
+                    Channel.id, Channel.name, Channel.creatorId).select { ChannelSubscription.channelId.eq(uuid!!) }.map {
+                return@map ChannelUsers(
+                        it[Channel.name],
+                        it[Channel.id],
+                        UserSmallObj(
+                                it[User.username],
+                                it[User.id]
                         )
-                    }
+
+                )
+            }
         }
     }
 }

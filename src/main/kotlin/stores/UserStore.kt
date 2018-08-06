@@ -1,4 +1,4 @@
-package Stores
+package stores
 
 import DatabaseFactory
 import io.ktor.http.Parameters
@@ -45,6 +45,7 @@ object UserStore {
             User.select { User.email.eq(email!!) }.takeIf { !it.empty() }
         }
     }
+
     suspend fun getAllUsers(): List<UsersObj> {
         return DatabaseFactory.dbQuery {
             User.selectAll().map {

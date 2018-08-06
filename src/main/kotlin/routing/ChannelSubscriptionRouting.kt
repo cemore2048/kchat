@@ -1,13 +1,12 @@
 package routing
 
-import Stores.ChannelSubscriptionObj
-import Stores.ChannelSubscriptionStore
+import Locations
+import stores.ChannelSubscriptionObj
+import stores.ChannelSubscriptionStore
 import com.sun.media.jfxmedia.logging.Logger
 import io.ktor.application.call
-import io.ktor.http.Parameters
 import io.ktor.locations.get
 import io.ktor.locations.post
-import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.Route
 
@@ -34,8 +33,9 @@ object ChannelSubscriptionRouting {
         }
 
     }
-    fun Route.getAllSubscriptions(){
-        get<Locations.GetAllSubscriptions>{
+
+    fun Route.getAllSubscriptions() {
+        get<Locations.GetAllSubscriptions> {
             val subscriptions: List<ChannelSubscriptionObj> = ChannelSubscriptionStore.getAllChannelSubcriptions()
             call.respond(ListChannelSubscription("success", "Successfully retrieved all the subscriptions", subscriptions))
         }
