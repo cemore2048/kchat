@@ -46,7 +46,7 @@ object ChannelSubscriptionStore {
         return getChannelSubscription(uuid)
     }
 
-    suspend private fun getChannelSubscription(uuid: String): String? {
+    private suspend fun getChannelSubscription(uuid: String): String? {
         return DatabaseFactory.dbQuery {
             ChannelSubscription.select {
                 ChannelSubscription.id.eq(uuid!!)

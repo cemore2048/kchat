@@ -1,7 +1,6 @@
 package routing
 
 import Locations
-import stores.TeamObj
 import stores.TeamStore
 import com.sun.media.jfxmedia.logging.Logger
 import io.ktor.application.call
@@ -35,7 +34,7 @@ object TeamRouting {
         }
         get<Locations.Teams> {
             val teams = TeamStore.getAll();
-            call.respond(ListResponse<TeamObj>("success", "Successfully retrieved all Teams", teams))
+            call.respond(ListResponse("success", "Successfully retrieved all Teams", teams))
         }
     }
 
