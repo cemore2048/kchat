@@ -9,7 +9,7 @@ import org.joda.time.DateTime
 import java.util.*
 
 abstract class BaseStore<T : BaseTable>(private val model: T) {
-    suspend fun create(callback: (Pair<InsertStatement<Number>, String>) -> Unit): String? {
+    open suspend fun create(callback: (Pair<InsertStatement<Number>, String>) -> Unit): String? {
         val uuid = UUID.randomUUID().toString()
         DatabaseFactory.dbQuery {
             model.insert {

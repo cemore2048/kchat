@@ -13,6 +13,7 @@ import io.ktor.routing.Route
 
 data class ListResponse<T>(val status: String, val reason: String, val data: List<T>?)
 data class CreateResponse(val status: String, val reason: String, val id: String?)
+data class DeleteResponse(val status: String, val reason: String, val id: String?)
 
 object TeamRouting {
     fun Route.createTeam() {

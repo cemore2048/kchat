@@ -2,9 +2,9 @@ group 'Kchat'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.2.31'
-    ext.ktor_version = '0.9.2'
-    ext.exposed_version = '0.10.1'
+    ext.kotlin_version = '1.2.6'
+    ext.ktor_version = '0.9.3'
+    ext.exposed_version = '0.10.4'
     ext.h2_version = '1.4.196'
     ext.pgs_version = '42.1.4'
 
