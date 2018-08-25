@@ -21,10 +21,8 @@ object TeamRouting {
             val params = call.receive<Parameters>()
             Logger.logMsg(Logger.INFO, "Create a Team ")
             val requiredParams = listOf("name")
-            val missingFields: List<String> =
-                    requiredParams.filter {
-                        params[it].isNullOrBlank()
-                    }
+            val missingFields = RoutingUtil.getMissingFields(requiredParams, params)
+
             if (missingFields.isNotEmpty()) {
                 val response = missingFields.joinToString(separator = ", ")
                 call.respond(CreateResponse("failed", "Missing Fields: $response", null))

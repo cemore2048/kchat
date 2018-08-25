@@ -21,12 +21,9 @@ object MessageRouting : BaseStore<Message>(Message) {
             Logger.logMsg(Logger.INFO, "Create message")
 
             val requiredParams = listOf("payload", "channelId", "postType", "uuid", "userId")
-            val missingFields: List<String> =
-                    requiredParams.filter {
-                        params[it].isNullOrBlank()
-                    }
+            val missingFields = RoutingUtil.getMissingFields(requiredParams, params)
             if (missingFields.isNotEmpty()) {
-                val response = missingFields.joinToString(separator = ", ")
+                val response = missingFields.joinToString(separator = ",")
                 call.respond(CreateResponse("failed", "Missing Fields: $response", null))
             } else {
                 val teamId: String? = MessageStore.create(params)
@@ -41,10 +38,7 @@ object MessageRouting : BaseStore<Message>(Message) {
             Logger.logMsg(Logger.INFO, "Delete Message")
 
             val requiredParams = listOf("id")
-            val missingFields: List<String> =
-                    requiredParams.filter {
-                        params[it].isNullOrBlank()
-                    }
+            val missingFields = RoutingUtil.getMissingFields(requiredParams, params)
 
             if (missingFields.isNotEmpty()) {
                 val response = missingFields.joinToString(separator = ",")
