@@ -5,6 +5,7 @@ import com.sun.media.jfxmedia.logging.Logger
 import io.ktor.application.call
 import io.ktor.http.Parameters
 import io.ktor.locations.post
+import io.ktor.locations.delete
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.Route
@@ -35,7 +36,7 @@ object MessageRouting : BaseStore<Message>(Message) {
     }
 
     fun Route.deleteMessage() {
-        post<Locations.DeleteMessage> {
+        delete<Locations.DeleteMessage> {
             val params = call.receive<Parameters>()
             Logger.logMsg(Logger.INFO, "Delete Message")
 

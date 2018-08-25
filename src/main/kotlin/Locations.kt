@@ -34,13 +34,13 @@ class Locations {
     @Location("/teams/{uuid}")
     data class Team(val uuid: String = "")
 
-    @Location("/create_message")
+    @Location("/message")
     data class CreateMessage(val uuid: String = "",
                              val channelId: String = "",
                              val payload: String = "",
                              val postType: String = "",
                              val userId: String = "")
 
-    @Location("/delete_message")
+    @Location("/message")
     data class DeleteMessage(val uuid: String = "")
 }
