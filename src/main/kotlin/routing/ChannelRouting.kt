@@ -1,8 +1,7 @@
 package routing
 
 import Locations
-import stores.*
-import com.sun.media.jfxmedia.logging.Logger
+import Logger
 import io.ktor.application.call
 import io.ktor.http.Parameters
 import io.ktor.locations.get
@@ -10,6 +9,7 @@ import io.ktor.locations.post
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.Route
+import stores.*
 
 
 data class CreateChannelResponse(val status: String, val reason: String, val channelId: String?)
@@ -21,7 +21,7 @@ object ChannelRouting {
     fun Route.createChannel() {
         post<Locations.Channels> {
             val params = call.receive<Parameters>()
-            Logger.logMsg(Logger.INFO, "Create a channel ")
+            Logger.info("Create a channel")
             val requiredParams = listOf("creatorId", "teamId", "type", "displayName", "name", "header", "purpose")
             val missingFields: List<String> =
                     requiredParams.filter { param ->
@@ -58,7 +58,7 @@ object ChannelRouting {
             }
             call.parameters["uuid"]?.let {
                 val uuid = it
-                Logger.logMsg(Logger.INFO, "Starting getting all users for channels")
+                Logger.info("Starting getting all users for channels")
                 val channelUsers: List<ChannelUsers>? = ChannelSubscriptionStore.getUsersInChannel(uuid)
                 if (channelUsers != null) {
                     val users: List<UserSmallObj>? = channelUsers.map { it.User }
