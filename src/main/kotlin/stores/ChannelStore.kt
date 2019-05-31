@@ -23,9 +23,9 @@ data class ChannelObj(val creatorId: String,
 
 object ChannelStore {
     suspend fun createChannel(params: Parameters): String? {
-        val uuid = UUID.randomUUID().toString()
+        var uuid  = ""
         DatabaseFactory.dbQuery {
-            Channel.insert {
+            uuid = (Channel.insert {
                 it[creatorId] = params["creatorId"]!!
                 it[teamId] = params["teamId"]!!
                 it[type] = params["type"]!!
@@ -34,14 +34,14 @@ object ChannelStore {
                 it[header] = params["header"]!!
                 it[purpose] = params["purpose"]!!
 
-                it[id] = uuid
+                it[id] = UUID.randomUUID().toString()
                 it[createdAt] = DateTime.now()
                 it[updateAt] = DateTime.now()
                 it[totalMsgCount] = 0
-            }
+            } get Channel.id)
         }
         //TODO: just return what gets returned
-        return getChannel(uuid)
+        return uuid
     }
 
     suspend fun getChannel(uuid: String?): String? {

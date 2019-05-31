@@ -14,10 +14,10 @@ import java.util.*
 object MessageStore {
 
     suspend fun create(params: Parameters): String? {
-        val uuid = UUID.randomUUID().toString()
+        var uuid =""
         DatabaseFactory.dbQuery {
-            Message.insert {
-                it[id] = uuid
+            uuid = (Message.insert {
+                it[id] = UUID.randomUUID().toString()
                 it[createdAt] = DateTime.now()
                 it[updateAt] = DateTime.now()
                 it[channelId] = params["channelId"]!!
@@ -26,9 +26,9 @@ object MessageStore {
                 it[userId] = params["userId"]!!
                 it[payload] = params["payload"]!!
                 it[postType] = params["postType"]!!
-            }
+            } get Message.id)
         }
-        return getMessage(uuid)
+        return uuid
     }
 
     suspend fun delete(uuid: String): String? {
