@@ -20,7 +20,7 @@ object MessageRouting : BaseStore<Message>(Message) {
             val params = call.receive<Parameters>()
             Logger.logMsg(Logger.INFO, "Create message")
 
-            val requiredParams = listOf("payload", "channelId", "postType", "uuid", "userId")
+            val requiredParams = listOf("payload", "channelId", "postType", "userId")
             val missingFields = RoutingUtil.getMissingFields(requiredParams, params)
             if (missingFields.isNotEmpty()) {
                 val response = missingFields.joinToString(separator = ",")

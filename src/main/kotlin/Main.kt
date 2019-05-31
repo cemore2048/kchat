@@ -1,3 +1,4 @@
+import ch.qos.logback.classic.Logger
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -20,6 +21,7 @@ import io.ktor.sessions.SessionTransportTransformerMessageAuthentication
 import io.ktor.sessions.Sessions
 import io.ktor.sessions.cookie
 import io.ktor.util.hex
+import org.slf4j.LoggerFactory
 import routing.ChannelRouting.createChannel
 import routing.ChannelRouting.getAllUsersForChannel
 import routing.ChannelRouting.getChannel
@@ -33,6 +35,8 @@ import routing.UserRouting.getUsers
 import routing.UserRouting.register
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
+
+val Logger = LoggerFactory.getLogger("Kchat")
 
 data class UserSession(val userId: String)
 

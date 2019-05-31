@@ -1,8 +1,7 @@
 package routing
 
 import Locations
-import stores.TeamStore
-import com.sun.media.jfxmedia.logging.Logger
+import Logger
 import io.ktor.application.call
 import io.ktor.http.Parameters
 import io.ktor.locations.get
@@ -10,6 +9,8 @@ import io.ktor.locations.post
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.Route
+import stores.TeamObj
+import stores.TeamStore
 
 data class ListResponse<T>(val status: String, val reason: String, val data: List<T>?)
 data class CreateResponse(val status: String, val reason: String, val id: String?)
@@ -19,7 +20,7 @@ object TeamRouting {
     fun Route.createTeam() {
         post<Locations.Teams> {
             val params = call.receive<Parameters>()
-            Logger.logMsg(Logger.INFO, "Create a Team ")
+            Logger.info("Create a Team ")
             val requiredParams = listOf("name")
             val missingFields = RoutingUtil.getMissingFields(requiredParams, params)
 

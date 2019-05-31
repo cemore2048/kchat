@@ -1,14 +1,14 @@
 package routing
 
 import Locations
-import stores.ChannelSubscriptionObj
-import stores.ChannelSubscriptionStore
-import com.sun.media.jfxmedia.logging.Logger
+import Logger
 import io.ktor.application.call
 import io.ktor.locations.get
 import io.ktor.locations.post
 import io.ktor.response.respond
 import io.ktor.routing.Route
+import stores.ChannelSubscriptionObj
+import stores.ChannelSubscriptionStore
 
 data class CreateChannelSubscriptionResponse(val status: String, val reason: String, val channelVal: String?)
 data class ListChannelSubscription(val status: String, val reason: String, val channelId: List<ChannelSubscriptionObj>?)
@@ -17,7 +17,7 @@ object ChannelSubscriptionRouting {
     fun Route.createChannelSubscription() {
         post<Locations.CreateChannelSubscription> {
             val params = call.parameters
-            Logger.logMsg(Logger.INFO, "subscribe a user to a channel ")
+            Logger.info("Subscribe a user to a channel ")
             val requiredParams = listOf("userId", "channelId")
             val missingFields = RoutingUtil.getMissingFields(requiredParams, params)
 
