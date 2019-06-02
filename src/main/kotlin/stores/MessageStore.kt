@@ -3,8 +3,6 @@ package stores
 import DatabaseFactory
 import io.ktor.http.Parameters
 import models.Message
-import models.User
-import org.jetbrains.exposed.sql.Query
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
@@ -14,7 +12,7 @@ import java.util.*
 object MessageStore {
 
     suspend fun create(params: Parameters): String? {
-        var uuid =""
+        var uuid = ""
         DatabaseFactory.dbQuery {
             uuid = (Message.insert {
                 it[id] = UUID.randomUUID().toString()

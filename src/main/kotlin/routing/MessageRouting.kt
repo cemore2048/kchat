@@ -1,11 +1,10 @@
 package routing
 
 import Locations
-import com.sun.media.jfxmedia.logging.Logger
 import io.ktor.application.call
 import io.ktor.http.Parameters
-import io.ktor.locations.post
 import io.ktor.locations.delete
+import io.ktor.locations.post
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.Route

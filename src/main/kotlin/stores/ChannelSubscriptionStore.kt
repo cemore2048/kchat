@@ -41,7 +41,7 @@ object ChannelSubscriptionStore {
                 it[id] = UUID.randomUUID().toString()
                 it[createdAt] = DateTime.now()
                 it[updateAt] = DateTime.now()
-            }get ChannelSubscription.id)
+            } get ChannelSubscription.id)
         }
         return uuid
     }

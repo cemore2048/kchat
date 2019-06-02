@@ -9,7 +9,6 @@ import io.ktor.locations.post
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.Route
-import stores.TeamObj
 import stores.TeamStore
 
 data class ListResponse<T>(val status: String, val reason: String, val data: List<T>?)

@@ -23,7 +23,7 @@ data class ChannelObj(val creatorId: String,
 
 object ChannelStore {
     suspend fun createChannel(params: Parameters): String? {
-        var uuid  = ""
+        var uuid = ""
         DatabaseFactory.dbQuery {
             uuid = (Channel.insert {
                 it[creatorId] = params["creatorId"]!!
