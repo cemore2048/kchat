@@ -1,6 +1,7 @@
 package routing
 
 import Locations
+import Logger
 import io.ktor.application.call
 import io.ktor.http.Parameters
 import io.ktor.locations.delete
@@ -17,7 +18,7 @@ object MessageRouting : BaseStore<Message>(Message) {
     fun Route.createMessage() {
         post<Locations.CreateMessage> {
             val params = call.receive<Parameters>()
-            Logger.logMsg(Logger.INFO, "Create message")
+            Logger.info("Create message")
 
             val requiredParams = listOf("payload", "channelId", "postType", "userId")
             val missingFields = RoutingUtil.getMissingFields(requiredParams, params)
@@ -34,7 +35,7 @@ object MessageRouting : BaseStore<Message>(Message) {
     fun Route.deleteMessage() {
         delete<Locations.DeleteMessage> {
             val params = call.receive<Parameters>()
-            Logger.logMsg(Logger.INFO, "Delete Message")
+            Logger.info("Delete Message")
 
             val requiredParams = listOf("id")
             val missingFields = RoutingUtil.getMissingFields(requiredParams, params)
