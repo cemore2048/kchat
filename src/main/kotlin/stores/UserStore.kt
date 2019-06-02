@@ -20,22 +20,20 @@ data class UsersObj(
 
 object UserStore {
     suspend fun registerUser(params: Parameters): String? {
-        if (isNewUser(params)) {
-            DatabaseFactory.dbQuery {
-                User.insert {
-                    it[password] = params["password"]!!
-                    it[username] = params["username"]!!
-                    it[firstName] = params["firstName"]!!
-                    it[lastName] = params["lastName"]!!
-                    it[email] = params["email"]!!
-                    it[id] = UUID.randomUUID().toString()
-                    it[createdAt] = DateTime.now()
-                }
-            }
-
-            return getUser(params["email"])?.map { it[User.id] }?.get(0)
+        var userId = ""
+        DatabaseFactory.dbQuery {
+            userId = (User.insert {
+                it[password] = params["password"]!!
+                it[username] = params["username"]!!
+                it[firstName] = params["firstName"]!!
+                it[lastName] = params["lastName"]!!
+                it[email] = params["email"]!!
+                it[id] = UUID.randomUUID().toString()
+                it[createdAt] = DateTime.now()
+            } get User.id)
         }
-        return null
+
+        return userId
     }
 
     suspend fun isNewUser(params: Parameters): Boolean = getUser(params["email"]) == null

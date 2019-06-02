@@ -19,10 +19,8 @@ object ChannelSubscriptionRouting {
             val params = call.parameters
             Logger.info("Subscribe a user to a channel ")
             val requiredParams = listOf("userId", "channelId")
-            val missingFields: List<String> =
-                    requiredParams.filter { param ->
-                        params[param].isNullOrBlank()
-                    }
+            val missingFields = RoutingUtil.getMissingFields(requiredParams, params)
+
             if (missingFields.isNotEmpty()) {
                 val response = missingFields.joinToString(separator = ", ")
                 call.respond(CreateChannelSubscriptionResponse("failed", "Missing Fields: $response", null))

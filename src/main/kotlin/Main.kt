@@ -1,4 +1,3 @@
-import ch.qos.logback.classic.Logger
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -27,6 +26,8 @@ import routing.ChannelRouting.getAllUsersForChannel
 import routing.ChannelRouting.getChannel
 import routing.ChannelSubscriptionRouting.createChannelSubscription
 import routing.ChannelSubscriptionRouting.getAllSubscriptions
+import routing.MessageRouting.createMessage
+import routing.MessageRouting.deleteMessage
 import routing.TeamRouting.createTeam
 import routing.TeamRouting.getTeam
 import routing.UserRouting.getUsers
@@ -80,6 +81,8 @@ fun Application.mainModule() {
         getAllUsersForChannel()
         createTeam()
         getTeam()
+        deleteMessage()
+        createMessage()
         location<Manual> {
             authenticate("kchatAuth1") {
                 get {
@@ -97,7 +100,6 @@ fun hash(password: String): String {
     hmac.init(hmacKey)
     return hex(hmac.doFinal(password.toByteArray(Charsets.UTF_8)))
 }
-
 
 fun main(args: Array<String>) {
     embeddedServer(Netty, 8080, module = Application::mainModule).start(wait = true)

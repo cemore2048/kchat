@@ -9,11 +9,11 @@ import io.ktor.locations.post
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.Route
-import stores.TeamObj
 import stores.TeamStore
 
 data class ListResponse<T>(val status: String, val reason: String, val data: List<T>?)
 data class CreateResponse(val status: String, val reason: String, val id: String?)
+data class DeleteResponse(val status: String, val reason: String, val id: String?)
 
 object TeamRouting {
     fun Route.createTeam() {
@@ -21,10 +21,8 @@ object TeamRouting {
             val params = call.receive<Parameters>()
             Logger.info("Create a Team ")
             val requiredParams = listOf("name")
-            val missingFields: List<String> =
-                    requiredParams.filter {
-                        params[it].isNullOrBlank()
-                    }
+            val missingFields = RoutingUtil.getMissingFields(requiredParams, params)
+
             if (missingFields.isNotEmpty()) {
                 val response = missingFields.joinToString(separator = ", ")
                 call.respond(CreateResponse("failed", "Missing Fields: $response", null))
@@ -35,7 +33,7 @@ object TeamRouting {
         }
         get<Locations.Teams> {
             val teams = TeamStore.getAll();
-            call.respond(ListResponse<TeamObj>("success", "Successfully retrieved all Teams", teams))
+            call.respond(ListResponse("success", "Successfully retrieved all Teams", teams))
         }
     }
 

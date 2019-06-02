@@ -31,22 +31,22 @@ data class ChannelSubscriptionObj(
 
 object ChannelSubscriptionStore {
     suspend fun createChannelSubscription(params: Parameters): String? {
-        val uuid = UUID.randomUUID().toString()
+        var uuid = ""
 
         DatabaseFactory.dbQuery {
-            ChannelSubscription.insert {
+            uuid = (ChannelSubscription.insert {
                 it[userId] = params["userId"]!!
                 it[channelId] = params["channelId"]!!
 
-                it[id] = uuid
+                it[id] = UUID.randomUUID().toString()
                 it[createdAt] = DateTime.now()
                 it[updateAt] = DateTime.now()
-            }
+            } get ChannelSubscription.id)
         }
-        return getChannelSubscription(uuid)
+        return uuid
     }
 
-    suspend private fun getChannelSubscription(uuid: String): String? {
+    private suspend fun getChannelSubscription(uuid: String): String? {
         return DatabaseFactory.dbQuery {
             ChannelSubscription.select {
                 ChannelSubscription.id.eq(uuid!!)

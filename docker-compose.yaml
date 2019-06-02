@@ -9,6 +9,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     volumes:
-    - ./data/postgres:/var/lib/postgresql/data 
+      - ./data/postgres:/var/lib/postgresql/data
     restart: always
 
