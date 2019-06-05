@@ -18,6 +18,17 @@ data class ChannelMem(val name: String, val id: String, val users: List<UserSmal
 data class ListUsersChannelsResponse(val status: String, val reason: String, val channel: ChannelMem?)
 
 object ChannelRouting {
+
+    /**
+     * This creates a channel which represents a dm, public chat, or private chat
+     *
+     * @requiredParam creatorId the user that created the channel
+     * @requiredParam teamId the team that the channel belongs to
+     * @requiredParam type is it a public, private, or dm
+     * @requiredParam displayName how people will see the channel
+     * @requiredParam header the channel header that's displayed
+     * @optionalParam puprose an optional reason for the channels existence
+     */
     fun Route.createChannel() {
         post<Locations.Channels> {
             val params = call.receive<Parameters>()
@@ -41,6 +52,12 @@ object ChannelRouting {
         }
     }
 
+
+    /**
+     * This gets the current {@link Channel} object
+     *
+     * @requiredParam uuid the channel id that we want to retrieve
+     */
     fun Route.getChannel() {
         get<Locations.GetChannel> {
             val uuid = call.parameters["uuid"]
@@ -49,6 +66,12 @@ object ChannelRouting {
         }
     }
 
+
+    /**
+     * This gets all of the users in the channel
+     *
+     * @requiredParam uuid the channel id
+     */
     fun Route.getAllUsersForChannel() {
         get<Locations.GetAllUsersForChannel> {
             try {
