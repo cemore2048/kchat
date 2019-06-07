@@ -18,7 +18,17 @@ private val PASSWORD_REGEX = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(
 data class CreateUserResponse(val status: String, val reason: String, val userId: String?)
 data class ListUserResponse(val status: String, val reason: String, val users: List<UsersObj>?)
 
+/**
+ * This handles all calls related to the User
+ */
 object UserRouting {
+
+    /**
+     * This registers a user for the first time
+     *
+     * @requiredParam password the user password for the account
+     * @requiredParam email the user email
+     */
     fun Route.register() {
         post<Locations.Register> {
             val params = call.receive<Parameters>()
@@ -40,6 +50,10 @@ object UserRouting {
         }
     }
 
+
+    /**
+     * This gets all the users
+     */
     fun Route.getUsers() {
         get<Locations.GetAllUsers> {
             val users: List<UsersObj> = UserStore.getAllUsers()
