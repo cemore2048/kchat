@@ -15,7 +15,16 @@ data class ListResponse<T>(val status: String, val reason: String, val data: Lis
 data class CreateResponse(val status: String, val reason: String, val id: String?)
 data class DeleteResponse(val status: String, val reason: String, val id: String?)
 
+/**
+ * The concept of a "Team" is the organization that your chat is a part of
+ */
 object TeamRouting {
+
+    /**
+     *  This is used to create the Team
+     *
+     *  @requiredParam name the name of the team
+     */
     fun Route.createTeam() {
         post<Locations.Teams> {
             val params = call.receive<Parameters>()
@@ -31,12 +40,21 @@ object TeamRouting {
                 call.respond(CreateResponse("success", "Successfully created a Team", teamId))
             }
         }
+
+        /**
+         *  This gets a list of all the created teams
+         */
         get<Locations.Teams> {
             val teams = TeamStore.getAll();
             call.respond(ListResponse("success", "Successfully retrieved all Teams", teams))
         }
     }
 
+    /**
+     * This gets one specific team
+     *
+     * @requiredParam uuid the id of the team you're trying to get
+     */
     fun Route.getTeam() {
         get<Locations.Team> {
             val uuid = call.parameters["uuid"]
