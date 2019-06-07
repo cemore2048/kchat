@@ -27,7 +27,7 @@ object ChannelRouting {
      * @requiredParam type is it a public, private, or dm
      * @requiredParam displayName how people will see the channel
      * @requiredParam header the channel header that's displayed
-     * @optionalParam puprose an optional reason for the channels existence
+     * @optionalParam purpose an optional reason for the channels existence
      */
     fun Route.createChannel() {
         post<Locations.Channels> {
