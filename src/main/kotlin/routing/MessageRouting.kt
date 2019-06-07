@@ -13,8 +13,16 @@ import models.Message
 import stores.BaseStore
 import stores.MessageStore
 
-
 object MessageRouting : BaseStore<Message>(Message) {
+
+    /**
+     * Creates a message on the server that will then be delivered to a specified {@link Channel}
+     *
+     * @requiredParam payload the message that is being delivered
+     * @requiredParam channelID the channel that the message will be delivered to
+     * @requiredParam postType ephemeral or public post
+     * @requiredParam userId the user that is sending the message
+     */
     fun Route.createMessage() {
         post<Locations.CreateMessage> {
             val params = call.receive<Parameters>()
@@ -32,6 +40,12 @@ object MessageRouting : BaseStore<Message>(Message) {
         }
     }
 
+
+    /**
+     * Deletes a message
+     *
+     * @requiredParam id the message id
+     */
     fun Route.deleteMessage() {
         delete<Locations.DeleteMessage> {
             val params = call.receive<Parameters>()
@@ -45,7 +59,7 @@ object MessageRouting : BaseStore<Message>(Message) {
                 call.respond(CreateResponse("failed", "Missing Fields: $response", null))
             } else {
                 val messageId: String? = MessageStore.delete(params["id"]!!)
-                call.respond(DeleteResponse("succes", "Deleted message", messageId))
+                call.respond(DeleteResponse("success", "Deleted message", messageId))
             }
         }
     }
